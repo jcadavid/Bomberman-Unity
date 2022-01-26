@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class Creep_1 : MonoBehaviour
+public class CreepMovement : MonoBehaviour
 {
     // Start is called before the first frame updateprivate Rigidbody2D rb;
     private Animator animator;
