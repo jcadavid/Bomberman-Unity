@@ -13,7 +13,6 @@ public class Bomb : MonoBehaviour
     private Animator _animator;
     private CircleCollider2D _circleCollider;
     [SerializeField]
-    private int _radiusExplotion = 2;
     PlayerBombSpawner _playerSpawner;
     [SerializeField]
     GameObject _flamePrefab;

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 5079079189168022394}
   - component: {fileID: 5079079189168022395}
   - component: {fileID: 5079079189168022375}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Bomb
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -134,3 +134,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _timeToExplote: 3
   _animationAdditionMultipler: 3
+  _playerSpawner: {fileID: 0}
+  _flamePrefab: {fileID: 0}

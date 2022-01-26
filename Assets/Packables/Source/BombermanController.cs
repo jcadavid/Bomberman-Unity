@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class BombermanController : MonoBehaviour
 {
+
+    
     
     void Start()
     {
