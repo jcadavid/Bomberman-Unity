@@ -6,16 +6,11 @@ public class CreepMovement : MonoBehaviour
     private Animator animator;
     private SpriteRenderer sr;
     private BoxCollider2D boxCollider;
-
     private Rigidbody2D rb;
     [SerializeField]
     Vector2 _movement;
     public float _movementSpeed = 2f;
-
     int layerBlocks;
-
-
-
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
