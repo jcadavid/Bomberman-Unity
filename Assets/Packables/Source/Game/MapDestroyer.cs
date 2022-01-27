@@ -9,7 +9,8 @@ public class MapDestroyer : MonoBehaviour {
 	public Tile _destructibleTile;
 
 	public GameObject explosionPrefab;
-    public int _radiusExplotion = 3;
+	[SerializeField]
+    public int _radiusExplotion;
 
 	
 	
