@@ -3,28 +3,23 @@ using UnityEngine.Tilemaps;
 
 public class MapDestroyer : MonoBehaviour {
 
-	public Tilemap _tileMap;
+	BombermanController bombermanController;
 
-	public Tile _wallTile;
-	public Tile _destructibleTile;
-
-	public GameObject explosionPrefab;
-	[SerializeField]
-    public int _radiusExplotion;
-
-	
+	private void Start() {
+		bombermanController = GetComponent<BombermanController>();
+	}
 	
 
 	public void Explode(Vector2 worldPos)
 	{
-		Vector3Int originCell = _tileMap.WorldToCell(worldPos);
+		Vector3Int originCell = bombermanController._tileMap.WorldToCell(worldPos);
 		bool continueYPositive = true;
 		bool continueYNegative = true;
 		bool continueXPositive = true;
 		bool continueXNegative = true;
 		
 		ExplodeCell(originCell);
-		for (int i = 1; i < _radiusExplotion; i++)
+		for (int i = 1; i < bombermanController._radiusExplotion; i++)
         {
             if(continueYPositive){
 				continueYPositive = ExplodeCell(originCell + new Vector3Int(0,1,0));
@@ -44,20 +39,20 @@ public class MapDestroyer : MonoBehaviour {
 
 	bool ExplodeCell (Vector3Int cell)
 	{
-		Tile tile = _tileMap.GetTile<Tile>(cell);
+		Tile tile = bombermanController._tileMap.GetTile<Tile>(cell);
 
-		if (tile == _wallTile)
+		if (tile == bombermanController._wallTile)
 		{
 			return false;
 		}
 
-		if (tile == _destructibleTile)
+		if (tile == bombermanController._destructibleTile)
 		{
-			_tileMap.SetTile(cell, null);
+			bombermanController._tileMap.SetTile(cell, null);
 		}
 
-		Vector3 pos = _tileMap.GetCellCenterWorld(cell);
-		Instantiate(explosionPrefab, pos, Quaternion.identity);
+		Vector3 pos = bombermanController._tileMap.GetCellCenterWorld(cell);
+		Instantiate(bombermanController.explosionPrefab, pos, Quaternion.identity);
 
 		return true;
 	}

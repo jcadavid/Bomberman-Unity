@@ -5,37 +5,22 @@ using UnityEngine.Tilemaps;
 
 public class GridGeneration : MonoBehaviour
 {
-    // Start is called before the first frame update
-
-    public Tilemap _tileMap;
-    public string stringSeed;
-    public Tile _destructibleTile;
-    public Tile _wallTile;
-    public bool useStringSeed;
-    public int seed;
-    [SerializeField]
-    public int _minEnemies;
-    [SerializeField]
-    public int _maxEnemies;
-    [SerializeField]
-    GameObject _enemy;
-
     [SerializeField]
     List<Vector3Int> bannedPositions = new List<Vector3Int>();
-    float probabilityDestructableWall = 0.4f;
-    float probabilityEnemy = 0.05f;
+    BombermanController bombermanController;
 
-    void Start()
+    public void Init()
     {
-        if (useStringSeed)
+        bombermanController = GetComponent<BombermanController>();
+        if (bombermanController.useStringSeed)
         {
-            seed = stringSeed.GetHashCode();
+            bombermanController.seed = bombermanController.stringSeed.GetHashCode();
         }
         else
         {
-            seed = Random.Range(0, 999999);
+            bombermanController.seed = Random.Range(0, 999999);
         }
-        Random.InitState(seed);
+        Random.InitState(bombermanController.seed);
         generateGrid();
         generateEnemies();
     }
@@ -48,11 +33,11 @@ public class GridGeneration : MonoBehaviour
             {
                 float rand = Random.Range(0f, 1f);
                 Vector3Int pos = new Vector3Int(x, y, 0);
-                if (_tileMap.GetTile(pos) != _wallTile & !isOnBannedPosition(pos))
+                if (bombermanController._tileMap.GetTile(pos) != bombermanController._wallTile & !isOnBannedPosition(pos))
                 {
-                    if (rand < probabilityDestructableWall)
+                    if (rand < bombermanController.probabilityDestructableWall)
                     {
-                        _tileMap.SetTile(pos, _destructibleTile);
+                        bombermanController._tileMap.SetTile(pos, bombermanController._destructibleTile);
                     }
                 }
             }
@@ -67,11 +52,15 @@ public class GridGeneration : MonoBehaviour
             {
                 float rand = Random.Range(0f, 1f);
                 Vector3Int pos = new Vector3Int(x, y, 0);
-                if (_tileMap.GetTile(pos) != _wallTile & _tileMap.GetTile(pos) != _destructibleTile)
+                if (bombermanController._tileMap.GetTile(pos) != bombermanController._wallTile & bombermanController._tileMap.GetTile(pos) != bombermanController._destructibleTile)
                 {
-                    if (rand < probabilityEnemy)
+                    if(bombermanController.currentEnemies == bombermanController._maxEnemies){
+                        return;
+                    }
+                    else if (rand < bombermanController.probabilityEnemy)
                     {
-                        Instantiate(_enemy,_tileMap.GetCellCenterWorld(pos),Quaternion.identity);
+                        Instantiate(bombermanController._enemy,bombermanController._tileMap.GetCellCenterWorld(pos),Quaternion.identity);
+                        bombermanController.currentEnemies+=1;
                     }
                 }
             }
