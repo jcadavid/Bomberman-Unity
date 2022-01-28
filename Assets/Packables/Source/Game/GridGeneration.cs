@@ -22,6 +22,7 @@ public class GridGeneration : MonoBehaviour
         }
         Random.InitState(bombermanController.seed);
         generateGrid();
+        generateAdditionalSolidBlocks();
         generateEnemies();
     }
 
@@ -35,9 +36,28 @@ public class GridGeneration : MonoBehaviour
                 Vector3Int pos = new Vector3Int(x, y, 0);
                 if (bombermanController._tileMap.GetTile(pos) != bombermanController._wallTile & !isOnBannedPosition(pos))
                 {
-                    if (rand < bombermanController.probabilityDestructableWall)
+                    if (rand < bombermanController._probabilityDestructableWall)
                     {
                         bombermanController._tileMap.SetTile(pos, bombermanController._destructibleTile);
+                    }
+                }
+            }
+        }
+    }
+
+    private void generateAdditionalSolidBlocks()
+    {
+        for (int y = -5; y <= 5; y++)
+        {
+            for (int x = -6; x <= 6; x++)
+            {
+                float rand = Random.Range(0f, 1f);
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                if (bombermanController._tileMap.GetTile(pos) != bombermanController._wallTile & !isOnBannedPosition(pos))
+                {
+                    if (rand < bombermanController._probabilityWall)
+                    {
+                        bombermanController._tileMap.SetTile(pos, bombermanController._wallTile);
                     }
                 }
             }
@@ -57,7 +77,7 @@ public class GridGeneration : MonoBehaviour
                     if(bombermanController.currentEnemies == bombermanController._maxEnemies){
                         return;
                     }
-                    else if (rand < bombermanController.probabilityEnemy)
+                    else if (rand < bombermanController._probabilityEnemy)
                     {
                         Instantiate(bombermanController._enemy,bombermanController._tileMap.GetCellCenterWorld(pos),Quaternion.identity);
                         bombermanController.currentEnemies+=1;

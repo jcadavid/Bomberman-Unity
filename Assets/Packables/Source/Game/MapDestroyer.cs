@@ -49,6 +49,7 @@ public class MapDestroyer : MonoBehaviour {
 		if (tile == bombermanController._destructibleTile)
 		{
 			bombermanController._tileMap.SetTile(cell, null);
+			BombermanEvent.onBlockDestroyed?.Invoke(cell);
 		}
 
 		Vector3 pos = bombermanController._tileMap.GetCellCenterWorld(cell);

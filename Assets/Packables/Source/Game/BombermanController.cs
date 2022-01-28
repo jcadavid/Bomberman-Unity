@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -23,18 +24,39 @@ public class BombermanController : MonoBehaviour
     [SerializeField]
     public GameObject _enemy;
     public int currentEnemies = 0;
-    public float probabilityDestructableWall = 0.4f;
-    public float probabilityEnemy = 0.05f;
+    public float _probabilityDestructableWall = 0.4f;
+    public float _probabilityWall = 0.03f;
+    public float _probabilityEnemy = 0.05f;
+    List<Player> _players = new List<Player>();
+
+    public bool hasPortalSpawn;
+
+    public float _probabilityPowerUp = 0.01f;
+    public float _probabilityPortal = 0.01f;
+
+    public int _numberOfDestruyableBlocks;
 
     void Start()
     {
         gridGeneration = GetComponent<GridGeneration>();
         gridGeneration.Init();
+        BombermanEvent.onPlayerDie += onPlayerDie;
+        BombermanEvent.onBlockDestroyed += onBlockDestroyed;
     }
-
     // Update is called once per frame
     void Update()
     {
 
+    }
+
+    public void onPlayerDie(Player player){
+        if(_players.Count == 1){
+            Debug.Log("GAMEOVER");
+        }
+    }
+
+     private void onBlockDestroyed(Vector3Int tilePosition)
+    {
+        _tileMap.GetCellCenterWorld(tilePosition);
     }
 }

@@ -1962,15 +1962,20 @@ MonoBehaviour:
   _destructibleTile: {fileID: 11400000, guid: 0e35fdaac96358a478bfaa4a813f6430, type: 2}
   explosionPrefab: {fileID: 6560274563961606197, guid: 823a8b572848d0f4eb35d157c83a399d, type: 3}
   _radiusExplotion: 3
-  stringSeed: 
-  useStringSeed: 0
+  stringSeed: MiNuevaSeed
+  useStringSeed: 1
   seed: 0
   _minEnemies: 1
   _maxEnemies: 3
   _enemy: {fileID: 7845932022005569463, guid: 50f6b0f6ab0e9484e8a08385cd5528aa, type: 3}
   currentEnemies: 0
-  probabilityDestructableWall: 0.4
-  probabilityEnemy: 0.05
+  _probabilityDestructableWall: 0.4
+  _probabilityWall: 0.05
+  _probabilityEnemy: 0.05
+  hasPortalSpawn: 0
+  _probabilityPowerUp: 0.01
+  _probabilityPortal: 0.01
+  _numberOfDestruyableBlocks: 0
 --- !u!114 &1110227394
 MonoBehaviour:
   m_ObjectHideFlags: 0
