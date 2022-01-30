@@ -10,7 +10,15 @@ public class CreepMovement : MonoBehaviour
     [SerializeField]
     Vector2 _movement;
     public float _movementSpeed = 2f;
+    [SerializeField]
+    float _rayLength = 0.6f;
     int layerBlocks;
+
+    bool objectDown;
+    bool objectUp;
+    bool objectLeft;
+    bool objectRight;
+
     private void Start()
     {
         sr = GetComponent<SpriteRenderer>();
@@ -21,13 +29,62 @@ public class CreepMovement : MonoBehaviour
         changeAxisMovement();
     }
 
-    private void Update() {
-        CheckCollision();
+    private void Update()
+    {
+        Movement();
+
     }
 
-   
+    private void Movement()
+    {
+        if (CheckInminentCollision() || _movement == Vector2.zero)
+        {
+            _movement = Vector2.zero;
+            checkCollisions();
+            if (!objectUp || !objectDown || !objectRight || !objectLeft)
+            {
+                changeAxisMovement();
+                updateAnimation();
+            }
+            else
+            {
+                animator.SetFloat("Speed", 0);
+            }
 
-    private void FixedUpdate() {
+        }
+    }
+
+    private void updateAnimation()
+    {
+        animator.SetFloat("Speed", 1);
+        animator.SetFloat("Horizontal", _movement.x);
+        animator.SetFloat("Vertical", _movement.y);
+        if(_movement.x < 0){
+            sr.flipX = true;
+        }
+        else {
+            sr.flipX = false;
+        }
+    }
+
+    private void checkCollisions()
+    {
+        objectDown = Physics2D.Raycast(transform.position, Vector2.down, _rayLength, layerBlocks);
+        objectUp = Physics2D.Raycast(transform.position, Vector2.up, _rayLength, layerBlocks);
+        objectLeft = Physics2D.Raycast(transform.position, Vector2.left, _rayLength, layerBlocks);
+        objectRight = Physics2D.Raycast(transform.position, Vector2.right, _rayLength, layerBlocks);
+
+
+        Debug.DrawRay(transform.position, Vector2.down * _rayLength, Color.green, 1);
+        Debug.DrawRay(transform.position, Vector2.up * _rayLength, Color.blue, 1);
+        Debug.DrawRay(transform.position, Vector2.left * _rayLength, Color.cyan, 1);
+        Debug.DrawRay(transform.position, Vector2.right * _rayLength, Color.black, 1);
+
+        Debug.Log("Layer: " + layerBlocks + ";Down: " + objectDown + "; Up: " + objectUp + "; Left: " + objectLeft + "; Right: " + objectRight);
+    }
+
+    private void FixedUpdate()
+    {
         rb.MovePosition(rb.position + _movement.normalized * _movementSpeed * Time.deltaTime);
     }
 
@@ -38,87 +95,90 @@ public class CreepMovement : MonoBehaviour
         {
             //Do something..
         }
-        
-    }
-  
+        else if (other.gameObject.tag == "Enemy")
+        {
+            _movement = _movement * -1;
+            updateAnimation();
+        }
 
-     private void CheckCollision()
+    }
+
+
+    private bool CheckInminentCollision()
     {
-        if(_movement.x != 0){
-            if(Physics2D.Raycast(transform.position,Vector2.right*_movement.x,0.5f,layerBlocks)){
-                _movement.x = 0;
-                changeAxisMovement();
-                Debug.Log("Collision detected X");
-            };            
+        if (_movement.x != 0)
+        {
+            return Physics2D.Raycast(transform.position, Vector2.right * _movement.x, 0.5f, layerBlocks);
+
+
         }
-        else if(_movement.y != 0){
-            if(Physics2D.Raycast(transform.position,Vector2.up*_movement.y,0.5f,layerBlocks)){
-                _movement.y = 0;
-                changeAxisMovement();
-                Debug.Log("Collision detected Y");
-            };            
+        else if (_movement.y != 0)
+        {
+            return Physics2D.Raycast(transform.position, Vector2.up * _movement.y, 0.5f, layerBlocks);
+
+
         }
-        
+        return false;
+
     }
 
     private void changeAxisMovement()
     {
-
-        bool objectDown= Physics2D.Raycast(transform.position,Vector2.down,0.5f,layerBlocks);
-        bool objectUp= Physics2D.Raycast(transform.position,Vector2.up,0.5f,layerBlocks);
-        bool objectLeft= Physics2D.Raycast(transform.position,Vector2.left,0.5f,layerBlocks);
-        bool objectRight= Physics2D.Raycast(transform.position,Vector2.right,0.5f,layerBlocks);
-        
-
-        Debug.DrawRay(transform.position,Vector2.down,Color.green,7);
-        Debug.DrawRay(transform.position,Vector2.up,Color.green,7);
-        Debug.DrawRay(transform.position,Vector2.left,Color.green,7);
-        Debug.DrawRay(transform.position,Vector2.right,Color.green,7);
-
-        Debug.Log("Layer: " + layerBlocks + ";Down: " + objectDown + "; Up: " + objectUp + "; Left: " + objectLeft + "; Right: " + objectRight);
-
-        
-        float rand = Random.Range(0,10);
-        if (rand < 2.5f & !objectRight)
+        int rand = Random.Range(0, 4);
+        if (rand == 0 & !objectRight)
         {
-            _movement.x = 1;
-            _movement.y = 0;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-            sr.flipX = false;
-            Debug.Log("Creep has changed movement to x positive");
+            moveRight();
         }
 
-        else if (rand < 5f & !objectUp)
+        else if (rand == 1 & !objectUp)
         {
-            _movement.x = 0;
-            _movement.y = 1;
-            Debug.Log("Creep has changed movement to y positive");
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+            moveUp();
         }
-        else if (rand < 7.5f & !objectDown)
+        else if (rand == 2 & !objectDown)
         {
-            _movement.x = 0;
-            _movement.y = -1;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
-            Debug.Log("Creep has changed movement to y negative");
+            moveDown();
         }
-       
-        else if (rand < 10f & !objectLeft)
+
+        else if (rand == 3 & !objectLeft)
         {
-            _movement.x = -1;
-            _movement.y = 0;
-            rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
-            sr.flipX = true;
-            Debug.Log("Creep has changed movement to x negative");
+            moveLeft();
         }
-        else{
+        else
+        {
             changeAxisMovement();
         }
-        
-        animator.SetFloat("Speed",1);
-        animator.SetFloat("Horizontal",_movement.x);
-        animator.SetFloat("Vertical",_movement.y);
-        
-        
+
+
+
+    }
+
+    private void moveUp()
+    {
+        _movement.x = 0;
+        _movement.y = 1;
+        Debug.Log("Creep has changed movement to y positive");
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+    }
+
+    private void moveDown()
+    {
+        _movement.x = 0;
+        _movement.y = -1;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionX | RigidbodyConstraints2D.FreezeRotation;
+        Debug.Log("Creep has changed movement to y negative");
+    }
+    private void moveLeft()
+    {
+        _movement.x = -1;
+        _movement.y = 0;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        Debug.Log("Creep has changed movement to x negative");
+    }
+    private void moveRight()
+    {
+        _movement.x = 1;
+        _movement.y = 0;
+        rb.constraints = RigidbodyConstraints2D.FreezePositionY | RigidbodyConstraints2D.FreezeRotation;
+        Debug.Log("Creep has changed movement to x positive");
     }
 }

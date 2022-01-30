@@ -7,7 +7,9 @@ public class GridGeneration : MonoBehaviour
 {
     [SerializeField]
     List<Vector3Int> bannedPositions = new List<Vector3Int>();
+    List<Vector3Int> enemiesPosition = new List<Vector3Int>();
     BombermanController bombermanController;
+
 
     public void Init()
     {
@@ -77,8 +79,9 @@ public class GridGeneration : MonoBehaviour
                     if(bombermanController.currentEnemies == bombermanController._maxEnemies){
                         return;
                     }
-                    else if (rand < bombermanController._probabilityEnemy)
+                    else if (rand < bombermanController._probabilityEnemy & !isOtherEnemy(pos))
                     {
+                        enemiesPosition.Add(pos);
                         Instantiate(bombermanController._enemy,bombermanController._tileMap.GetCellCenterWorld(pos),Quaternion.identity);
                         bombermanController.currentEnemies+=1;
                     }
@@ -98,4 +101,17 @@ public class GridGeneration : MonoBehaviour
         }
         return false;
     }
+
+    private bool isOtherEnemy(Vector3Int pos){
+        foreach (Vector3Int enemyPos in enemiesPosition)
+        {
+            if (enemyPos == pos)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    
 }
