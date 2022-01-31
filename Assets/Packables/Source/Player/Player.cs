@@ -16,10 +16,9 @@ public class Player : MonoBehaviour
     int _life = 10;
     private bool invulnerable;
     public int life;
-
+    
     private void Start()
     {
-        
     }    
 
     void Update()
@@ -38,6 +37,7 @@ public class Player : MonoBehaviour
             }
             else{
                 _healthPoints = 1;
+                life -=1;
             }
         }
         Debug.Log(_healthPoints);

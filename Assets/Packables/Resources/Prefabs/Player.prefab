@@ -43,8 +43,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cdbf59de097af8849981617c08c2979b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _bombPrefab: {fileID: 5079079189168022392, guid: 308098b98f630154fa1918d9999a5e29, type: 3}
-  _tileMap: {fileID: 0}
+  _bombQuantity: 0
+  _maxBombs: 1
 --- !u!1 &6214893056465139464
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,6 +164,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ea65986878c391441893f54f92df503e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _healthPoints: 1
+  _playerNumber: 0
+  life: 2
 --- !u!114 &1722042121782139031
 MonoBehaviour:
   m_ObjectHideFlags: 0

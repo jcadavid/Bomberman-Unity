@@ -10,7 +10,10 @@ public class PlayerMovement : MonoBehaviour
     private SpriteRenderer sr;
     [SerializeField]
     Vector2 _movement;
+    [SerializeField]
     public float _movementSpeed = 3f;
+    [SerializeField]
+    public float _additionalSpeed = 2f;
 
     private void Start()
     {
@@ -25,9 +28,9 @@ public class PlayerMovement : MonoBehaviour
     }
 
     void Update()
-    {        
+    {
         UpdateMovement();
-    }   
+    }
     private void UpdateMovement()
     {
         _movement.x = Input.GetAxisRaw("Horizontal");
@@ -43,5 +46,15 @@ public class PlayerMovement : MonoBehaviour
         animator.SetFloat("Horizontal", _movement.x);
         animator.SetFloat("Vertical", _movement.y);
         animator.SetFloat("Speed", _movement.sqrMagnitude);
-    }    
+    }
+
+    public void BoostSpeed()
+    {
+        _movementSpeed += _additionalSpeed;
+        Invoke("ReduceSpeed", 20f);
+    }
+    private void ReduceSpeed()
+    {
+        _movementSpeed -= _additionalSpeed;
+    }
 }
