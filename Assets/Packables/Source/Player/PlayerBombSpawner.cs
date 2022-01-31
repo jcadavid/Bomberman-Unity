@@ -6,19 +6,14 @@ using UnityEngine.Tilemaps;
 public class PlayerBombSpawner : MonoBehaviour
 {
 
-    [SerializeField]
-    GameObject _bombPrefab;
-
-
-    [SerializeField]
-    Tilemap _tileMap;
-
     public int _bombQuantity = 0;
     public int _maxBombs = 1;
+    BombermanController _bombermanController;
 
     // Start is called before the first frame update
     void Start()
     {
+        _bombermanController = FindObjectOfType<BombermanController>();
 
     }
 
@@ -27,22 +22,22 @@ public class PlayerBombSpawner : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.Space) && _bombQuantity < _maxBombs)
         {
-            CreateBomb();            
+            CreateBomb();
         }
 
     }
 
     private void CreateBomb()
     {
-        if (_bombPrefab == null)
+        if (_bombermanController._bombPrefab == null)
         {
             Debug.LogError("BombPrefab Null");
             return;
         }
 
-        Vector3Int cell = _tileMap.WorldToCell(transform.position);
-        Vector3 cellCenterPos = _tileMap.GetCellCenterWorld(cell);
-        GameObject newBomb = Instantiate(_bombPrefab, cellCenterPos, Quaternion.identity);
+        Vector3Int cell = _bombermanController._tileMap.WorldToCell(transform.position);
+        Vector3 cellCenterPos = _bombermanController._tileMap.GetCellCenterWorld(cell);
+        GameObject newBomb = Instantiate(_bombermanController._bombPrefab, cellCenterPos, Quaternion.identity);
         newBomb.GetComponent<Bomb>().Init(this);
         _bombQuantity += 1;
     }

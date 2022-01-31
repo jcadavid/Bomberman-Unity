@@ -41,6 +41,7 @@ public class GridGeneration : MonoBehaviour
                     if (rand < bombermanController._probabilityDestructableWall)
                     {
                         bombermanController._tileMap.SetTile(pos, bombermanController._destructibleTile);
+                        bombermanController._numberOfDestruyableBlocks +=1;
                     }
                 }
             }

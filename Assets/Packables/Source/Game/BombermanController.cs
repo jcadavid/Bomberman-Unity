@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -35,13 +33,17 @@ public class BombermanController : MonoBehaviour
     public float _probabilityPortal = 0.01f;
 
     public int _numberOfDestruyableBlocks;
-
+    [SerializeField]
+    GameObject _powerUpPrefab;
+    [SerializeField]
+    public GameObject _bombPrefab;
     void Start()
     {
         gridGeneration = GetComponent<GridGeneration>();
         gridGeneration.Init();
         BombermanEvent.onPlayerDie += onPlayerDie;
         BombermanEvent.onBlockDestroyed += onBlockDestroyed;
+
     }
     // Update is called once per frame
     void Update()
@@ -49,16 +51,49 @@ public class BombermanController : MonoBehaviour
 
     }
 
-    public void onPlayerDie(Player player){
-        if(_players.Count == 1){
-            Debug.Log("GAMEOVER");
-        }
-    }
-
-     private void onBlockDestroyed(Vector3Int tilePosition)
+    public void onPlayerDie(Player player)
     {
-        _tileMap.GetCellCenterWorld(tilePosition);
+        
+            Debug.Log("GAMEOVER");
+        
     }
 
-    
+    private void onBlockDestroyed(Vector3Int tilePosition)
+    {
+        _numberOfDestruyableBlocks -= 1;
+        Vector3 pos = _tileMap.GetCellCenterWorld(tilePosition);
+        if (_numberOfDestruyableBlocks == 0 & !hasPortalSpawn)
+        {
+            hasPortalSpawn = true;
+        }
+        else
+        {
+            float rand = Random.Range(0, 1);
+            if (rand < _probabilityPortal & !hasPortalSpawn)
+            {
+                SpawnPowerUp(pos);
+            }
+            else if(rand < _probabilityPowerUp)
+            {
+                SpawnPowerUp(pos);
+            }
+            _probabilityPortal += _probabilityPortal;
+        }
+
+    }
+
+    private void SpawnPowerUp(Vector3 pos)
+    {
+        Instantiate(_powerUpPrefab,pos,Quaternion.identity);
+    }
+
+    public void addRadiusExplotion()
+    {
+        _radiusExplotion +=1;
+    }
+
+    private void SpawnPortal(Vector3 pos)
+    {
+
+    }
 }

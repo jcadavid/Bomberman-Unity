@@ -19,7 +19,7 @@ public class MapDestroyer : MonoBehaviour {
 		bool continueXNegative = true;
 		
 		ExplodeCell(originCell);
-		for (int i = 1; i < bombermanController._radiusExplotion; i++)
+		for (int i = 1; i <= bombermanController._radiusExplotion; i++)
         {
             if(continueYPositive){
 				continueYPositive = ExplodeCell(originCell + new Vector3Int(0,1,0));
@@ -39,8 +39,9 @@ public class MapDestroyer : MonoBehaviour {
 
 	bool ExplodeCell (Vector3Int cell)
 	{
+		bool shouldContinue = false;
 		Tile tile = bombermanController._tileMap.GetTile<Tile>(cell);
-
+	
 		if (tile == bombermanController._wallTile)
 		{
 			return false;
@@ -50,8 +51,8 @@ public class MapDestroyer : MonoBehaviour {
 		{
 			bombermanController._tileMap.SetTile(cell, null);
 			BombermanEvent.onBlockDestroyed?.Invoke(cell);
-		}
-
+			
+		}	
 		Vector3 pos = bombermanController._tileMap.GetCellCenterWorld(cell);
 		Instantiate(bombermanController.explosionPrefab, pos, Quaternion.identity);
 
