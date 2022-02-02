@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public enum PlayerNumber{
@@ -17,13 +18,14 @@ public class Player : MonoBehaviour
     private bool invulnerable;
     public int life;
     
+    
     private void Start()
     {
     }    
 
     void Update()
     {
-               
+         
     }
 
     public void ReduceHealth()
@@ -42,4 +44,8 @@ public class Player : MonoBehaviour
         }
         Debug.Log(_healthPoints);
     }
+
+    
+
+
 }

@@ -19,19 +19,19 @@ public class MapDestroyer : MonoBehaviour {
 		bool continueXNegative = true;
 		
 		ExplodeCell(originCell);
-		for (int i = 1; i <= bombermanController._radiusExplotion; i++)
+		for (int i = 1; i < bombermanController._radiusExplotion; i++)
         {
             if(continueYPositive){
-				continueYPositive = ExplodeCell(originCell + new Vector3Int(0,1,0));
+				continueYPositive = ExplodeCell(originCell + new Vector3Int(0,i,0));
 			}
 			if(continueYNegative){
-				continueYPositive = ExplodeCell(originCell + new Vector3Int(0,-1,0));
+				continueYNegative = ExplodeCell(originCell + new Vector3Int(0,-i,0));
 			}
 			if(continueXPositive){
-				continueYPositive = ExplodeCell(originCell + new Vector3Int(1,0,0));
+				continueXPositive = ExplodeCell(originCell + new Vector3Int(i,0,0));
 			}
 			if(continueXNegative){
-				continueYPositive = ExplodeCell(originCell + new Vector3Int(-1,0,0));
+				continueXNegative = ExplodeCell(originCell + new Vector3Int(-i,0,0));
 			}
         }
 
@@ -39,7 +39,6 @@ public class MapDestroyer : MonoBehaviour {
 
 	bool ExplodeCell (Vector3Int cell)
 	{
-		bool shouldContinue = false;
 		Tile tile = bombermanController._tileMap.GetTile<Tile>(cell);
 	
 		if (tile == bombermanController._wallTile)
@@ -51,12 +50,16 @@ public class MapDestroyer : MonoBehaviour {
 		{
 			bombermanController._tileMap.SetTile(cell, null);
 			BombermanEvent.onBlockDestroyed?.Invoke(cell);
+			return false;
 			
-		}	
-		Vector3 pos = bombermanController._tileMap.GetCellCenterWorld(cell);
+		}
+		else{
+			Vector3 pos = bombermanController._tileMap.GetCellCenterWorld(cell);
 		Instantiate(bombermanController.explosionPrefab, pos, Quaternion.identity);
 
 		return true;
+		}	
+		
 	}
 
 }

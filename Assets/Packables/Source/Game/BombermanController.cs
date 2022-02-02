@@ -14,6 +14,11 @@ public class BombermanController : MonoBehaviour
     public int _radiusExplotion;
     public string stringSeed;
     public bool useStringSeed;
+    [SerializeField]
+    public GameObject _portalPrefab;
+
+
+
     public int seed;
     [SerializeField]
     public int _minEnemies;
@@ -37,6 +42,8 @@ public class BombermanController : MonoBehaviour
     GameObject _powerUpPrefab;
     [SerializeField]
     public GameObject _bombPrefab;
+    private bool isFlamePowerUpActive;
+    private bool isGameOver;
     void Start()
     {
         gridGeneration = GetComponent<GridGeneration>();
@@ -53,9 +60,9 @@ public class BombermanController : MonoBehaviour
 
     public void onPlayerDie(Player player)
     {
-        
-            Debug.Log("GAMEOVER");
-        
+
+        Debug.Log("GAMEOVER");
+
     }
 
     private void onBlockDestroyed(Vector3Int tilePosition)
@@ -71,9 +78,9 @@ public class BombermanController : MonoBehaviour
             float rand = Random.Range(0, 1);
             if (rand < _probabilityPortal & !hasPortalSpawn)
             {
-                SpawnPowerUp(pos);
+                SpawnPortal(pos);
             }
-            else if(rand < _probabilityPowerUp)
+            else if (rand < _probabilityPowerUp)
             {
                 SpawnPowerUp(pos);
             }
@@ -84,16 +91,47 @@ public class BombermanController : MonoBehaviour
 
     private void SpawnPowerUp(Vector3 pos)
     {
-        Instantiate(_powerUpPrefab,pos,Quaternion.identity);
+        Instantiate(_powerUpPrefab, pos, Quaternion.identity);
     }
 
     public void addRadiusExplotion()
     {
-        _radiusExplotion +=1;
+        if (!isFlamePowerUpActive)
+        {
+            isFlamePowerUpActive = true;
+            _radiusExplotion += 1;
+        }
     }
 
     private void SpawnPortal(Vector3 pos)
     {
+        if (!hasPortalSpawn)
+        {
+            hasPortalSpawn=true;
+            Instantiate(_portalPrefab, pos, Quaternion.identity);
+        }
+    }
+
+
+    public void reduceCurrentEnemies()
+    {
+        currentEnemies -= 1;
 
     }
+
+    public void checkEnemies(Vector3 portalPosition, Collider2D player)
+    {
+        if (currentEnemies <= 0)
+        {
+            Debug.Log("Win");
+            player.GetComponent<PlayerMovement>().disappearAnimation(portalPosition);
+        }
+        else
+        {
+            Debug.Log("There are enemies");
+        }
+    }
+
+
+
 }

@@ -26,7 +26,7 @@ public class Flame : MonoBehaviour
         if(other.gameObject.tag == "Player"){
             other.GetComponent<Player>().ReduceHealth();
         } else if(other.gameObject.tag == "Enemy"){
-            
+            other.GetComponent<Enemy>().ReduceHealth();
         }
         
 

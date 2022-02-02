@@ -15,6 +15,15 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField]
     public float _additionalSpeed = 2f;
 
+    public bool _doAnimation;
+
+    Vector3 rotation;
+
+    Vector3 scaleChange = new Vector3(-0.0005f,-0.0005f,-0.0005f);
+
+
+    public float rotationSpeed = 60f;
+
     private void Start()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -29,7 +38,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        UpdateMovement();
+        if(_doAnimation){
+            doAnimation(); 
+        }
+        else{  
+            UpdateMovement();
+        }
     }
     private void UpdateMovement()
     {
@@ -57,4 +71,26 @@ public class PlayerMovement : MonoBehaviour
     {
         _movementSpeed -= _additionalSpeed;
     }
+
+    public void disappearAnimation(Vector3 portalPostion)
+    {
+        _doAnimation = true;
+        
+        transform.position = portalPostion;
+        _movement = Vector2.zero;
+        _movementSpeed = 0;
+
+        rb.isKinematic = true;
+    }
+    
+    public void doAnimation(){
+        
+        rotation.z = rotationSpeed * Time.deltaTime;        
+        transform.Rotate(rotation, Space.Self);
+        transform.localScale += scaleChange;
+        if(transform.localScale.x <= 0){
+            Destroy(gameObject);
+        }    
+    }
+
 }
