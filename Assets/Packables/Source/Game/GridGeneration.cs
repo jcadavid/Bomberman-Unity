@@ -32,7 +32,7 @@ public class GridGeneration : MonoBehaviour
     {
         for (int y = -5; y <= 5; y++)
         {
-            for (int x = -6; x <= 6; x++)
+            for (int x = -9; x <= 9; x++)
             {
                 float rand = Random.Range(0f, 1f);
                 Vector3Int pos = new Vector3Int(x, y, 0);
@@ -52,7 +52,7 @@ public class GridGeneration : MonoBehaviour
     {
         for (int y = -5; y <= 5; y++)
         {
-            for (int x = -6; x <= 6; x++)
+            for (int x = -9; x <= 9; x++)
             {
                 float rand = Random.Range(0f, 1f);
                 Vector3Int pos = new Vector3Int(x, y, 0);
@@ -71,7 +71,7 @@ public class GridGeneration : MonoBehaviour
     {
         for (int y = -5; y <= 5; y++)
         {
-            for (int x = -6; x <= 6; x++)
+            for (int x = -9; x <= 9; x++)
             {
                 float rand = Random.Range(0f, 1f);
                 Vector3Int pos = new Vector3Int(x, y, 0);
