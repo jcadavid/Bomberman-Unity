@@ -15,7 +15,7 @@ public class Player : MonoBehaviour
     public int _healthPoints;
 
     public PlayerNumber _playerNumber;
-    int _lives = 5;
+    public int _lives = 5;
     private bool invulnerable;
     public int life;
 
