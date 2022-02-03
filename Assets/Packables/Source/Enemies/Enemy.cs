@@ -6,8 +6,7 @@ public class Enemy : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-   public int _healthPoints = 1;
-
+   public int _healthPoints;
 
     internal void ReduceHealth(){       
         _healthPoints -= 1;

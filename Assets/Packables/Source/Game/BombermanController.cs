@@ -17,8 +17,6 @@ public class BombermanController : MonoBehaviour
     [SerializeField]
     public GameObject _portalPrefab;
 
-
-
     public int seed;
     [SerializeField]
     public int _minEnemies;

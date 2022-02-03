@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7845932022005569462}
   - component: {fileID: 7845932022005569465}
   m_Layer: 8
-  m_Name: Creep
+  m_Name: Creep2
   m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 1
-  m_Sprite: {fileID: 21300000, guid: 125fc5608d7cc4c40be99759b6f530cf, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 37cd683247ac25547b2f91c75f9a8bef, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -97,7 +97,7 @@ Animator:
   m_GameObject: {fileID: 7845932022005569463}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 83c86eb12d72a0b42b3b7dd667f0072b, type: 2}
+  m_Controller: {fileID: 9100000, guid: 245727c785e2f4442947a7f9f4022839, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -144,7 +144,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8b24ebcecc7293d41b899124e681ea3b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _healthPoints: 1
+  _healthPoints: 2
 --- !u!114 &7845932022005569462
 MonoBehaviour:
   m_ObjectHideFlags: 0
