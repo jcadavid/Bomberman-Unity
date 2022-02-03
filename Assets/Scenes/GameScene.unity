@@ -9650,6 +9650,22 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
+    - target: {fileID: 6214893056465139469, guid: 740e1fd3158f4be4ab1c6f8bc5188b1a, type: 3}
+      propertyPath: flashColor.a
+      value: 0.77254903
+      objectReference: {fileID: 0}
+    - target: {fileID: 6214893056465139469, guid: 740e1fd3158f4be4ab1c6f8bc5188b1a, type: 3}
+      propertyPath: flashColor.b
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6214893056465139469, guid: 740e1fd3158f4be4ab1c6f8bc5188b1a, type: 3}
+      propertyPath: flashColor.g
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6214893056465139469, guid: 740e1fd3158f4be4ab1c6f8bc5188b1a, type: 3}
+      propertyPath: flashColor.r
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6214893056465139471, guid: 740e1fd3158f4be4ab1c6f8bc5188b1a, type: 3}
       propertyPath: m_RootOrder
       value: 2

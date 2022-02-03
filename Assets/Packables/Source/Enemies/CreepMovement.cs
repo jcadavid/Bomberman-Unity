@@ -93,7 +93,7 @@ public class CreepMovement : MonoBehaviour
     {
         if (other.gameObject.tag == "Player")
         {
-            //Do something..
+            other.gameObject.GetComponent<Player>().ReduceHealth();
         }
         else if (other.gameObject.tag == "Enemy")
         {
