@@ -1420,7 +1420,7 @@ MonoBehaviour:
   _enemy2: {fileID: 7845932022005569463, guid: 571a95c84e1acf644abef918875a58c9, type: 3}
   currentEnemies: 0
   _probabilityDestructableWall: 0.3
-  _probabilityWall: 0.08
+  _probabilityWall: 0.05
   _probabilityEnemy: 0.05
   _probabilityEnemy2: 0.05
   hasPortalSpawn: 0
