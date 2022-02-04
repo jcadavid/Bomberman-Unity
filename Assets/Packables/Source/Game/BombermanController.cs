@@ -1,7 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-
+enum gameStatus
+{
+    menuPrincipal,
+    inGame,
+    gameOver,
+    OnVictory
+}
 public class BombermanController : MonoBehaviour
 {
 
@@ -16,6 +22,9 @@ public class BombermanController : MonoBehaviour
     public bool useStringSeed;
     [SerializeField]
     public GameObject _portalPrefab;
+
+    [SerializeField]
+    public GameObject _gridPrefab;
 
     public int seed;
     [SerializeField]
@@ -36,36 +45,101 @@ public class BombermanController : MonoBehaviour
     public float _probabilityPortal = 0.01f;
 
     public int _numberOfDestruyableBlocks;
+
+    private GameObject _currentPlayer;
+    private GameObject _currentPortal;
+
+    [SerializeField]
+    GameObject _playerPrefab;
+
     [SerializeField]
     GameObject _powerUpPrefab;
     [SerializeField]
     public GameObject _bombPrefab;
     private bool isFlamePowerUpActive;
     private bool isGameOver;
+    private gameStatus status;
+
+    GameObject _grid;
+
+    int score;
     void Start()
     {
         gridGeneration = GetComponent<GridGeneration>();
-        gridGeneration.Init();
         BombermanEvent.onPlayerDie += onPlayerDie;
         BombermanEvent.onBlockDestroyed += onBlockDestroyed;
+        BombermanEvent.OnGameStartEvent += onGameStart;
+        BombermanEvent.onEnemyDeath += onEnemyDeath;
+        status = gameStatus.menuPrincipal;
+        score = 0;
 
     }
     // Update is called once per frame
     void Update()
     {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            switch (status)
+            {
+                case gameStatus.menuPrincipal: { 
+                    BombermanEvent.OnGameStartEvent?.Invoke();
+                    status = gameStatus.inGame; 
+                    break; 
+                    }
+                case gameStatus.gameOver: {                    
+                    BombermanEvent.OnGameOverMenuEvent?.Invoke(); 
+                    status = gameStatus.menuPrincipal;
+                    break; 
+                    }
+                case gameStatus.OnVictory: { 
+                    BombermanEvent.OnVictoryMenuEvent?.Invoke(); 
+                    status = gameStatus.menuPrincipal;
+                    break; 
+                    }
 
+            }
+
+        }
+        if (Input.GetKeyDown(KeyCode.Escape) && status == gameStatus.inGame)
+        {
+            destroyScene();
+            BombermanEvent.OnExitMenuEvent?.Invoke();
+
+        }
+    }
+
+    public void onGameStart()
+    {
+        _grid = Instantiate(_gridPrefab, new Vector3(0, 1, 0), Quaternion.identity);
+        _tileMap = _grid.transform.Find("Blocks").GetComponent<Tilemap>();
+        gridGeneration.Init();
+        _currentPlayer = Instantiate(_playerPrefab, new Vector3(-8.5f, 6.5f, 0), Quaternion.identity);
     }
 
     public void onPlayerDie(Player player)
     {
+        destroyScene();
+        status = gameStatus.gameOver;
+        BombermanEvent.OnGameOverEvent?.Invoke(score);
+    }
 
-        Debug.Log("GAMEOVER");
-
+    public void destroyScene(){
+        destroyPowerUp();
+        destroyEnemies();
+        Destroy(_currentPlayer);
+        Destroy(_currentPortal);
+        Destroy(_grid.gameObject);
+        _grid = null;
+        _tileMap = null;
+        _currentPlayer = null;
+        _currentPortal = null;
     }
 
     private void onBlockDestroyed(Vector3Int tilePosition)
     {
         _numberOfDestruyableBlocks -= 1;
+        score += 50;
+        BombermanEvent.OnScoreUpdatedEvent?.Invoke(score);
         Vector3 pos = _tileMap.GetCellCenterWorld(tilePosition);
         if (_numberOfDestruyableBlocks == 0 & !hasPortalSpawn)
         {
@@ -105,30 +179,57 @@ public class BombermanController : MonoBehaviour
     {
         if (!hasPortalSpawn)
         {
-            hasPortalSpawn=true;
-            Instantiate(_portalPrefab, pos, Quaternion.identity);
+            hasPortalSpawn = true;
+            _currentPortal = Instantiate(_portalPrefab, pos, Quaternion.identity);
         }
     }
 
 
-    public void reduceCurrentEnemies()
+
+    public void onEnemyDeath()
     {
         currentEnemies -= 1;
-
+        score += 50;
+        BombermanEvent.OnScoreUpdatedEvent?.Invoke(score);
     }
 
     public void checkEnemies(Vector3 portalPosition, Collider2D player)
     {
         if (currentEnemies <= 0)
         {
-            Debug.Log("Win");
             player.GetComponent<PlayerMovement>().disappearAnimation(portalPosition);
-        }
-        else
-        {
-            Debug.Log("There are enemies");
+            Invoke("OnWin", 2.5f);
+
         }
     }
+
+    private void OnWin()
+    {
+        destroyScene();
+        status = gameStatus.OnVictory;
+        BombermanEvent.OnVictoryEvent?.Invoke(score);
+    }
+
+
+
+    private void destroyPowerUp()
+    {
+        PowerUp[] PowerUps = FindObjectsOfType<PowerUp>();
+        foreach (PowerUp powerUp in PowerUps)
+        {
+            Destroy(powerUp.gameObject);
+        }
+    }
+
+    private void destroyEnemies()
+    {
+        Enemy[] enemies = FindObjectsOfType<Enemy>();
+        foreach (Enemy enemy in enemies)
+        {
+            Destroy(enemy.gameObject);
+        }
+    }
+
 
 
 

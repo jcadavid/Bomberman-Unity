@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
     internal void ReduceHealth(){       
         _healthPoints -= 1;
         if(_healthPoints <= 0){
-            FindObjectOfType<BombermanController>().reduceCurrentEnemies();
+            BombermanEvent.onEnemyDeath?.Invoke();
             Destroy(gameObject);            
         }       
     }

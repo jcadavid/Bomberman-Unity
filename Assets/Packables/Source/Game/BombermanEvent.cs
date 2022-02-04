@@ -16,8 +16,11 @@ public static class BombermanEvent
     public delegate void AdditionalFlamePowerUp();
     public static AdditionalFlamePowerUp onAdditionalFlamePowerUp;
 
+    public delegate void EnemyDeath();
+    public static EnemyDeath onEnemyDeath;
+
     // Game UI Settings Events
-    public delegate void ScoreUpdatedAction(int score, int totalScore);
+    public delegate void ScoreUpdatedAction(int totalScore);
     public static ScoreUpdatedAction OnScoreUpdatedEvent;
 
     public delegate void LevelUpdatedAction(int level);

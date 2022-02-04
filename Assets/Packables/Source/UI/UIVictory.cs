@@ -18,14 +18,14 @@ public class UIVictory : MonoBehaviour
         _canvasGroup = GetComponent<CanvasGroup>();
         _canvasGroup.alpha = 0;
 
-        BombermanEvent.OnGameOverEvent += OnVictory;
-        BombermanEvent.OnGameOverMenuEvent += OnMainMenu;
+        BombermanEvent.OnVictoryEvent += OnVictory;
+        BombermanEvent.OnVictoryMenuEvent += OnMainMenu;
     }
 
     private void OnDestroy()
     {
-        BombermanEvent.OnGameOverEvent -= OnGameOver;
-        BombermanEvent.OnGameOverMenuEvent -= OnMainMenu;
+        BombermanEvent.OnVictoryEvent -= OnVictory;
+        BombermanEvent.OnVictoryMenuEvent -= OnMainMenu;
     }
 
     private void OnVictory(int FinalScore)

@@ -43,7 +43,7 @@ public class UILevelScore : MonoBehaviour
         BombermanEvent.OnExitMenuEvent -= OnExitMenu;
     }
 
-    private void OnScoreUpdated(int score, int totalScore)
+    private void OnScoreUpdated(int totalScore)
     {
         _scoreText.text = string.Format(SCORE_TEXT_TEMPLATE, totalScore);
     }
