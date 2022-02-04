@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1951734231}
   - component: {fileID: 1951734232}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: BombSpawner
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -60,7 +60,7 @@ GameObject:
   - component: {fileID: 1722042121782139031}
   - component: {fileID: 6214893056465139468}
   - component: {fileID: 6214893056465139458}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -166,7 +166,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _healthPoints: 1
   _playerNumber: 0
-  life: 2
+  _maxLives: 5
+  _currentLife: 0
+  flashColor: {r: 1, g: 1, b: 1, a: 0.7176471}
+  regularColor: {r: 1, g: 1, b: 1, a: 1}
+  flashDuration: 0.2
+  numberOfFlashes: 25
+  sp: {fileID: 6214893056465139470}
 --- !u!114 &1722042121782139031
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,6 +187,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _movement: {x: 0, y: 0}
   _movementSpeed: 3
+  _additionalSpeed: 2
+  _doAnimation: 0
+  rotationSpeed: 60
 --- !u!50 &6214893056465139468
 Rigidbody2D:
   serializedVersion: 4

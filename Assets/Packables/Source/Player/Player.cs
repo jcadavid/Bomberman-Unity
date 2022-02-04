@@ -51,25 +51,31 @@ public class Player : MonoBehaviour
                 BombermanEvent.onPlayerDie?.Invoke(this);
                 Destroy(gameObject);
             }
+            StartCoroutine("FlashCo");            
             _currentLife -= 1;
             BombermanEvent.OnLifeUpdatedEvent?.Invoke(_currentLife);
             transform.position = initialPosition;
+            
         }
 
     }
 
     private IEnumerator FlashCo()
     {
+        invulnerable = true;
         int temp = 0;
-        Physics.IgnoreLayerCollision(3, 8, true);
+        gameObject.layer = 10;
         while (temp < numberOfFlashes)
         {
             sp.color = flashColor;
             yield return new WaitForSeconds(flashDuration);
             sp.color = regularColor;
             yield return new WaitForSeconds(flashDuration);
+            temp++;
         }
-        Physics.IgnoreLayerCollision(3, 8, false);
+        Physics2D.IgnoreLayerCollision(3, 8, false);
+        invulnerable = false;
+        gameObject.layer = 3;
     }
 
 
