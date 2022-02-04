@@ -16,6 +16,7 @@ public class UIMenu : MonoBehaviour
         BombermanEvent.OnGameOverMenuEvent += OnMainMenu;
         BombermanEvent.OnVictoryMenuEvent += OnMainMenu;
         BombermanEvent.OnExitMenuEvent += OnMainMenu;
+        BombermanEvent.OnStartMenuEvent += OnMainMenu;
     }
 
     private void OnDestroy()
@@ -24,6 +25,7 @@ public class UIMenu : MonoBehaviour
         BombermanEvent.OnGameOverMenuEvent -= OnMainMenu;
         BombermanEvent.OnVictoryMenuEvent -= OnMainMenu;
         BombermanEvent.OnExitMenuEvent -= OnMainMenu;
+        BombermanEvent.OnStartMenuEvent -= OnMainMenu;
     }
 
     private void OnGameStart()

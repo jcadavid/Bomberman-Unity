@@ -71,6 +71,7 @@ public class BombermanController : MonoBehaviour
         BombermanEvent.onBlockDestroyed += onBlockDestroyed;
         BombermanEvent.OnGameStartEvent += onGameStart;
         BombermanEvent.onEnemyDeath += onEnemyDeath;
+        BombermanEvent.OnStartGameEvent?.Invoke();
         status = gameStatus.menuPrincipal;
         score = 0;
 
@@ -104,12 +105,24 @@ public class BombermanController : MonoBehaviour
             }
 
         }
-        if (Input.GetKeyDown(KeyCode.Escape) && status == gameStatus.inGame)
+        if (Input.GetKeyDown(KeyCode.Escape))
         {
-            destroyScene();
-            status = gameStatus.menuPrincipal;
-            BombermanEvent.OnExitMenuEvent?.Invoke();
+            switch (status)
+            {
+                case gameStatus.menuPrincipal:
+                    {
+                        BombermanEvent.OnExitGameEvent?.Invoke();
+                        break;
+                    }
+                case gameStatus.inGame:
+                    {
+                        destroyScene();
+                        status = gameStatus.menuPrincipal;
+                        BombermanEvent.OnExitMenuEvent?.Invoke();
+                        break;
+                    }
 
+            }
         }
     }
 
