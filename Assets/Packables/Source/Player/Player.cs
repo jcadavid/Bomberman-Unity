@@ -35,6 +35,7 @@ public class Player : MonoBehaviour
         sp = GetComponent<SpriteRenderer>();
         _currentLife = 5;
         BombermanEvent.OnLifeUpdatedEvent?.Invoke(_currentLife);
+        StartCoroutine("FlashCo");
     }
 
     void Update()

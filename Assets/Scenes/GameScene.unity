@@ -1415,16 +1415,16 @@ MonoBehaviour:
   _gridPrefab: {fileID: 5978702627180873725, guid: e57a68bea8165fd41b82dfb638c39916, type: 3}
   seed: 0
   _maxEnemies: 2
-  _maxEnemies2: 2
+  _maxEnemies2: 4
   _enemy: {fileID: 7845932022005569463, guid: 50f6b0f6ab0e9484e8a08385cd5528aa, type: 3}
   _enemy2: {fileID: 7845932022005569463, guid: 571a95c84e1acf644abef918875a58c9, type: 3}
   currentEnemies: 0
-  _probabilityDestructableWall: 0.2
-  _probabilityWall: 0.001
+  _probabilityDestructableWall: 0.3
+  _probabilityWall: 0.08
   _probabilityEnemy: 0.05
   _probabilityEnemy2: 0.05
   hasPortalSpawn: 0
-  _probabilityPowerUp: 0.01
+  _probabilityPowerUp: 0.2
   _probabilityPortal: 0.01
   _numberOfDestruyableBlocks: 0
   _playerPrefab: {fileID: 6214893056465139464, guid: 740e1fd3158f4be4ab1c6f8bc5188b1a, type: 3}

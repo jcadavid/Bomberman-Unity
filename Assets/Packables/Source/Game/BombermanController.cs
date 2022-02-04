@@ -154,6 +154,7 @@ public class BombermanController : MonoBehaviour
         _tileMap = null;
         _currentPlayer = null;
         _currentPortal = null;
+        hasPortalSpawn = false;
         currentEnemies = 0;
         _radiusExplotion = 2;
         score = 0;
@@ -165,22 +166,17 @@ public class BombermanController : MonoBehaviour
         score += 20;
         BombermanEvent.OnScoreUpdatedEvent?.Invoke(score);
         Vector3 pos = _tileMap.GetCellCenterWorld(tilePosition);
-        if (_numberOfDestruyableBlocks == 0 & !hasPortalSpawn)
-        {
-            hasPortalSpawn = true;
-        }
+        if(!hasPortalSpawn){
+            SpawnPortal(pos);
+        }        
         else
         {
-            float rand = Random.Range(0, 1);
-            if (rand < _probabilityPortal & !hasPortalSpawn)
-            {
-                SpawnPortal(pos);
-            }
-            else if (rand < _probabilityPowerUp)
+            float rand = Random.Range(0, 100f);
+            rand = rand/100;
+            if (rand < _probabilityPowerUp )
             {
                 SpawnPowerUp(pos);
-            }
-            _probabilityPortal += _probabilityPortal;
+            }            
         }
 
     }
