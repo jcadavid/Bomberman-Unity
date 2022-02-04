@@ -15,6 +15,7 @@ https://i.imgur.com/prHxZvg.mp4
 
 # Realizado por:
 
-> --Juan Felipe Cadavid Ruiz
-    --David Garcia Blandon
-    -- Juan Pablo Buitrago 
+- Juan Felipe Cadavid Ruiz
+- David Garcia Blandon
+- Juan Pablo Buitrago 
+
