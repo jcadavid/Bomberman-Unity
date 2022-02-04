@@ -41,4 +41,10 @@ public class PlayerBombSpawner : MonoBehaviour
         newBomb.GetComponent<Bomb>().Init(this);
         _bombQuantity += 1;
     }
+
+    public void AddMaxBomb(){
+        _maxBombs++;
+    }
+
+    
 }

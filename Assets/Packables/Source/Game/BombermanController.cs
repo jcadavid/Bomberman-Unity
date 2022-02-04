@@ -60,7 +60,6 @@ public class BombermanController : MonoBehaviour
     [SerializeField]
     public GameObject _bombPrefab;
     private bool isFlamePowerUpActive;
-    private bool isGameOver;
     private gameStatus status;
     GameObject _grid;
 
@@ -141,6 +140,7 @@ public class BombermanController : MonoBehaviour
         _currentPlayer = null;
         _currentPortal = null;
         currentEnemies = 0;
+        _radiusExplotion = 2;
     }
 
     private void onBlockDestroyed(Vector3Int tilePosition)

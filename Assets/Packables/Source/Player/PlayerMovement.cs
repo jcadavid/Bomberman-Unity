@@ -12,14 +12,15 @@ public class PlayerMovement : MonoBehaviour
     Vector2 _movement;
     [SerializeField]
     public float _movementSpeed = 3f;
+    public float _maxSpeed = 6f;
     [SerializeField]
-    public float _additionalSpeed = 2f;
+    public float _additionalSpeed = 1.5f;
 
-    public bool _doAnimation;
+    public bool _doAnimation;    
 
     Vector3 rotation;
 
-    Vector3 scaleChange = new Vector3(-0.0005f,-0.0005f,-0.0005f);
+    Vector3 scaleChange = new Vector3(-0.0005f, -0.0005f, -0.0005f);
 
 
     public float rotationSpeed = 60f;
@@ -38,10 +39,12 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if(_doAnimation){
-            doAnimation(); 
+        if (_doAnimation)
+        {
+            doAnimation();
         }
-        else{  
+        else
+        {
             UpdateMovement();
         }
     }
@@ -64,8 +67,11 @@ public class PlayerMovement : MonoBehaviour
 
     public void BoostSpeed()
     {
-        _movementSpeed += _additionalSpeed;
-        Invoke("ReduceSpeed", 20f);
+        if (_movementSpeed < _maxSpeed)
+        {   
+            _movementSpeed += _additionalSpeed;
+            Invoke("ReduceSpeed", 20f);
+        }
     }
     private void ReduceSpeed()
     {
@@ -75,22 +81,24 @@ public class PlayerMovement : MonoBehaviour
     public void disappearAnimation(Vector3 portalPostion)
     {
         _doAnimation = true;
-        
+
         transform.position = portalPostion;
         _movement = Vector2.zero;
         _movementSpeed = 0;
 
         rb.isKinematic = true;
     }
-    
-    public void doAnimation(){
-        
-        rotation.z = rotationSpeed * Time.deltaTime;        
+
+    public void doAnimation()
+    {
+
+        rotation.z = rotationSpeed * Time.deltaTime;
         transform.Rotate(rotation, Space.Self);
         transform.localScale += scaleChange;
-        if(transform.localScale.x <= 0){
+        if (transform.localScale.x <= 0)
+        {
             Destroy(gameObject);
-        }    
+        }
     }
 
 }

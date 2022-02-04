@@ -51,7 +51,7 @@ public class PowerUp : MonoBehaviour
         return Resources.Load<Sprite>(path);
     }
 
-    private void OnCollisionEnter2D(Collision2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.gameObject.tag == "Player")
         {
@@ -60,7 +60,7 @@ public class PowerUp : MonoBehaviour
         }        
     }
 
-    private void Effect(Collision2D other)
+    private void Effect(Collider2D other)
     {
         switch (type)
         {
@@ -71,7 +71,7 @@ public class PowerUp : MonoBehaviour
                 }
             case PowerUpType.AdditionalFlame:
                 {
-                    AdditionalFlame(other);
+                    AdditionalFlame();
                     break;
                 }
             case PowerUpType.BoostSpeed:
@@ -83,18 +83,18 @@ public class PowerUp : MonoBehaviour
         }
     }
 
-    private void BoostSpeed(Collision2D other)
+    private void BoostSpeed(Collider2D other)
     {
         other.gameObject.GetComponent<PlayerMovement>().BoostSpeed();
     }
 
-    private void AdditionalFlame(Collision2D other)
+    private void AdditionalFlame()
     {
         _bombermanController.addRadiusExplotion();
     }
 
-    private void AdditionalBomb(Collision2D other)
+    private void AdditionalBomb(Collider2D other)
     {
-        other.gameObject.GetComponentInChildren<PlayerBombSpawner>()._maxBombs +=1;
+        other.gameObject.GetComponentInChildren<PlayerBombSpawner>().AddMaxBomb();
     }
 }
