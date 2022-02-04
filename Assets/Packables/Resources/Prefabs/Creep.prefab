@@ -145,6 +145,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _healthPoints: 1
+  flashColor: {r: 1, g: 1, b: 1, a: 1}
+  regularColor: {r: 0.990566, g: 0.35978103, b: 0.35978103, a: 0.5176471}
+  flashDuration: 0.1
+  numberOfFlashes: 5
+  sp: {fileID: 0}
 --- !u!114 &7845932022005569462
 MonoBehaviour:
   m_ObjectHideFlags: 0

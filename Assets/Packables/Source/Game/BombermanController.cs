@@ -28,15 +28,18 @@ public class BombermanController : MonoBehaviour
 
     public int seed;
     [SerializeField]
-    public int _minEnemies;
-    [SerializeField]
+
     public int _maxEnemies;
+    [SerializeField] 
+    public int _maxEnemies2;
     [SerializeField]
     public GameObject _enemy;
+    public GameObject _enemy2;
     public int currentEnemies = 0;
     public float _probabilityDestructableWall = 0.4f;
     public float _probabilityWall = 0.03f;
     public float _probabilityEnemy = 0.05f;
+    public float _probabilityEnemy2 = 0.02f;
     List<Player> _players = new List<Player>();
 
     public bool hasPortalSpawn;
@@ -59,7 +62,6 @@ public class BombermanController : MonoBehaviour
     private bool isFlamePowerUpActive;
     private bool isGameOver;
     private gameStatus status;
-
     GameObject _grid;
 
     int score;
@@ -81,20 +83,23 @@ public class BombermanController : MonoBehaviour
         {
             switch (status)
             {
-                case gameStatus.menuPrincipal: { 
-                    BombermanEvent.OnGameStartEvent?.Invoke();
-                    status = gameStatus.inGame; 
-                    break; 
+                case gameStatus.menuPrincipal:
+                    {
+                        BombermanEvent.OnGameStartEvent?.Invoke();
+                        status = gameStatus.inGame;
+                        break;
                     }
-                case gameStatus.gameOver: {                    
-                    BombermanEvent.OnGameOverMenuEvent?.Invoke(); 
-                    status = gameStatus.menuPrincipal;
-                    break; 
+                case gameStatus.gameOver:
+                    {
+                        BombermanEvent.OnGameOverMenuEvent?.Invoke();
+                        status = gameStatus.menuPrincipal;
+                        break;
                     }
-                case gameStatus.OnVictory: { 
-                    BombermanEvent.OnVictoryMenuEvent?.Invoke(); 
-                    status = gameStatus.menuPrincipal;
-                    break; 
+                case gameStatus.OnVictory:
+                    {
+                        BombermanEvent.OnVictoryMenuEvent?.Invoke();
+                        status = gameStatus.menuPrincipal;
+                        break;
                     }
 
             }
@@ -124,7 +129,8 @@ public class BombermanController : MonoBehaviour
         BombermanEvent.OnGameOverEvent?.Invoke(score);
     }
 
-    public void destroyScene(){
+    public void destroyScene()
+    {
         destroyPowerUp();
         destroyEnemies();
         Destroy(_currentPlayer);
@@ -134,6 +140,7 @@ public class BombermanController : MonoBehaviour
         _tileMap = null;
         _currentPlayer = null;
         _currentPortal = null;
+        currentEnemies = 0;
     }
 
     private void onBlockDestroyed(Vector3Int tilePosition)

@@ -73,7 +73,6 @@ public class Player : MonoBehaviour
             yield return new WaitForSeconds(flashDuration);
             temp++;
         }
-        Physics2D.IgnoreLayerCollision(3, 8, false);
         invulnerable = false;
         gameObject.layer = 3;
     }

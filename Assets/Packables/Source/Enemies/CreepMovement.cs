@@ -27,6 +27,7 @@ public class CreepMovement : MonoBehaviour
         rb = GetComponent<Rigidbody2D>();
         layerBlocks = LayerMask.GetMask("Block");
         changeAxisMovement();
+        updateAnimation();
     }
 
     private void Update()

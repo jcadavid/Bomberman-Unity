@@ -10,6 +10,8 @@ public class GridGeneration : MonoBehaviour
     List<Vector3Int> enemiesPosition = new List<Vector3Int>();
     BombermanController bombermanController;
 
+    
+
 
     public void Init()
     {
@@ -25,7 +27,7 @@ public class GridGeneration : MonoBehaviour
         Random.InitState(bombermanController.seed);
         generateGrid();
         generateAdditionalSolidBlocks();
-        generateEnemies();
+        bombermanController.currentEnemies = generateEnemies() + generateEnemies2();        
     }
 
     private void generateGrid()
@@ -67,8 +69,9 @@ public class GridGeneration : MonoBehaviour
         }
     }
 
-    void generateEnemies()
+    int generateEnemies()
     {
+        int countEnemy =0;
         for (int y = -5; y <= 5; y++)
         {
             for (int x = -9; x <= 9; x++)
@@ -77,18 +80,43 @@ public class GridGeneration : MonoBehaviour
                 Vector3Int pos = new Vector3Int(x, y, 0);
                 if (bombermanController._tileMap.GetTile(pos) != bombermanController._wallTile & bombermanController._tileMap.GetTile(pos) != bombermanController._destructibleTile)
                 {
-                    if(bombermanController.currentEnemies == bombermanController._maxEnemies){
-                        return;
+                    if(countEnemy == bombermanController._maxEnemies){
+                        return countEnemy;
                     }
-                    else if (rand < bombermanController._probabilityEnemy & !isOtherEnemy(pos))
+                    else if (rand < bombermanController._probabilityEnemy & !isOtherEnemy(pos) & !isOnBannedPosition(pos))
                     {
                         enemiesPosition.Add(pos);
                         Instantiate(bombermanController._enemy,bombermanController._tileMap.GetCellCenterWorld(pos),Quaternion.identity);
-                        bombermanController.currentEnemies+=1;
+                        countEnemy++;
                     }
                 }
             }
         }
+        return countEnemy;
+    }
+    int generateEnemies2(){
+        int countEnemy2 =0;
+        for (int y = -5; y <= 5; y++)
+        {
+            for (int x = -9; x <= 9; x++)
+            {
+                float rand = Random.Range(0f, 1f);
+                Vector3Int pos = new Vector3Int(x, y, 0);
+                if (bombermanController._tileMap.GetTile(pos) != bombermanController._wallTile & bombermanController._tileMap.GetTile(pos) != bombermanController._destructibleTile)
+                {
+                    if(countEnemy2  == bombermanController._maxEnemies2){
+                        return countEnemy2;
+                    }
+                    else if (rand < bombermanController._probabilityEnemy & !isOtherEnemy(pos) & !isOnBannedPosition(pos))
+                    {
+                        enemiesPosition.Add(pos);
+                        Instantiate(bombermanController._enemy2,bombermanController._tileMap.GetCellCenterWorld(pos),Quaternion.identity);
+                        countEnemy2++;
+                    }
+                }
+            }
+        }
+        return countEnemy2;
     }
 
     private bool isOnBannedPosition(Vector3Int pos)
