@@ -103,6 +103,7 @@ public class BombermanController : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.Escape) && status == gameStatus.inGame)
         {
             destroyScene();
+            status = gameStatus.menuPrincipal;
             BombermanEvent.OnExitMenuEvent?.Invoke();
 
         }
