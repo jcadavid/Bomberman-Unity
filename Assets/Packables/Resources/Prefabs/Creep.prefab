@@ -150,6 +150,7 @@ MonoBehaviour:
   flashDuration: 0.1
   numberOfFlashes: 5
   sp: {fileID: 0}
+  score: 50
 --- !u!114 &7845932022005569462
 MonoBehaviour:
   m_ObjectHideFlags: 0

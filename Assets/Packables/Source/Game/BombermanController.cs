@@ -1,12 +1,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-enum gameStatus
+ enum gameStatus
 {
     menuPrincipal,
     inGame,
     gameOver,
-    OnVictory
+    OnVictory,
+    Credits
 }
 public class BombermanController : MonoBehaviour
 {
@@ -60,7 +61,7 @@ public class BombermanController : MonoBehaviour
     [SerializeField]
     public GameObject _bombPrefab;
     private bool isFlamePowerUpActive;
-    private gameStatus status;
+     gameStatus status;
     GameObject _grid;
 
     int score;
@@ -71,7 +72,6 @@ public class BombermanController : MonoBehaviour
         BombermanEvent.onBlockDestroyed += onBlockDestroyed;
         BombermanEvent.OnGameStartEvent += onGameStart;
         BombermanEvent.onEnemyDeath += onEnemyDeath;
-        BombermanEvent.OnStartGameEvent?.Invoke();
         status = gameStatus.menuPrincipal;
         score = 0;
 
@@ -86,6 +86,7 @@ public class BombermanController : MonoBehaviour
                 case gameStatus.menuPrincipal:
                     {
                         BombermanEvent.OnGameStartEvent?.Invoke();
+                        BombermanEvent.OnScoreUpdatedEvent?.Invoke(score);
                         status = gameStatus.inGame;
                         break;
                     }
@@ -112,6 +113,7 @@ public class BombermanController : MonoBehaviour
                 case gameStatus.menuPrincipal:
                     {
                         BombermanEvent.OnExitGameEvent?.Invoke();
+                        status = gameStatus.Credits;
                         break;
                     }
                 case gameStatus.inGame:
@@ -135,10 +137,10 @@ public class BombermanController : MonoBehaviour
     }
 
     public void onPlayerDie(Player player)
-    {
-        destroyScene();
+    {        
         status = gameStatus.gameOver;
         BombermanEvent.OnGameOverEvent?.Invoke(score);
+        destroyScene();
     }
 
     public void destroyScene()
@@ -154,12 +156,13 @@ public class BombermanController : MonoBehaviour
         _currentPortal = null;
         currentEnemies = 0;
         _radiusExplotion = 2;
+        score = 0;
     }
 
     private void onBlockDestroyed(Vector3Int tilePosition)
     {
         _numberOfDestruyableBlocks -= 1;
-        score += 50;
+        score += 20;
         BombermanEvent.OnScoreUpdatedEvent?.Invoke(score);
         Vector3 pos = _tileMap.GetCellCenterWorld(tilePosition);
         if (_numberOfDestruyableBlocks == 0 & !hasPortalSpawn)
@@ -207,10 +210,10 @@ public class BombermanController : MonoBehaviour
 
 
 
-    public void onEnemyDeath()
+    public void onEnemyDeath(int _additionalScore)
     {
         currentEnemies -= 1;
-        score += 50;
+        score += _additionalScore;
         BombermanEvent.OnScoreUpdatedEvent?.Invoke(score);
     }
 
@@ -225,10 +228,10 @@ public class BombermanController : MonoBehaviour
     }
 
     private void OnWin()
-    {
-        destroyScene();
+    {        
         status = gameStatus.OnVictory;
         BombermanEvent.OnVictoryEvent?.Invoke(score);
+        destroyScene();
     }
 
 

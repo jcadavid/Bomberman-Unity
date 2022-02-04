@@ -13,6 +13,8 @@ public class Enemy : MonoBehaviour
     public float flashDuration;
     public int numberOfFlashes;
     public SpriteRenderer sp;
+    [SerializeField]
+    int score;
 
 
     private void Start() {
@@ -24,7 +26,7 @@ public class Enemy : MonoBehaviour
         {
             if (_healthPoints == 1)
             {
-                BombermanEvent.onEnemyDeath?.Invoke();
+                BombermanEvent.onEnemyDeath?.Invoke(score);
                 Destroy(gameObject);
             }
             _healthPoints -= 1;

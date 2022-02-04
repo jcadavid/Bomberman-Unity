@@ -8,6 +8,8 @@ public class UICreditos : MonoBehaviour
 
     void Start()
     {
+        _canvasGroup = GetComponent<CanvasGroup>();
+        _canvasGroup.alpha = 0;
         BombermanEvent.OnExitGameEvent += OnExitGame;
     }
 
